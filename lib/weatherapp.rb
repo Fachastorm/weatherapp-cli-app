@@ -1,5 +1,2 @@
-require "weatherapp/version"
-
-module Weatherapp
-  # Your code goes here...
-end
+require_relative "./weatherapp/version"
+require_relative "./weatherapp/cli"
