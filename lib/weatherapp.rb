@@ -1,3 +1,6 @@
 require_relative "./weatherapp/version"
 require_relative "./weatherapp/cli"
 require_relative "./weatherapp/weather"
+require "nokogiri"
+require "open-uri"
+require "pry"

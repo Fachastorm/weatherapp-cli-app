@@ -42,7 +42,8 @@ end
     puts "You have chosen #{@state_weather.state}."
     puts "These are the available weather stations in your selected state."
       @state_weather.cities.each.with_index(1) do |c, i|
-        "puts #{i}. #{c.name}"
+        city = c.split(/ : /)
+        puts "#{i}. #{city[0]}"
       end
     end
 
