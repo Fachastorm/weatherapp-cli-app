@@ -9,8 +9,8 @@ class Weatherapp::Weather
 
   def city_list
     html = open("https://www.wunderground.com/cgi-bin/findweather/getForecast?query=#{@state}")
-    weather_list = Nokogiri::HTML(open(html).read)
-    weather_list.css("tbody tr").each do |w|
+    doc = Nokogiri::HTML(open(html).read)
+      doc.css("tbody tr").each do |w|
        city = w.css("a").text
        url = w.css("a").attr("href").value
       @cities << "#{city} : #{url}"
