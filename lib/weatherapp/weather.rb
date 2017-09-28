@@ -1,6 +1,6 @@
 class Weatherapp::Weather
 
-  attr_accessor :cities, :state, :url, :name
+  attr_accessor :cities, :state, :url, :name, :available_cities
 
   def initialize(state)
     @state = state
@@ -17,5 +17,31 @@ class Weatherapp::Weather
     end
     @cities
   end
+
+  def citys_weather(input)
+    @cities.each.with_index(1) do |c, i|
+      cit = c.split(/ : /)
+      receiver_city = cit[0].downcase
+      if receiver_city == input
+        html = open("https://www.wunderground.com/#{cit[1]}")
+        doc = Nokogiri::HTML(html)
+          temperature = doc.search("span.test-true span.wu-value.wu-value-to").first.text
+          conditions =  doc.search("div.condition-icon.small-6 p").text
+          wind = doc.search("div.condition-wind p strong").text
+          speed = doc.search("div.wind-speed strong").text
+          tomorrow_temp = doc.search("p.weather-quickie span").text
+
+
+          puts "**********************************************************************************"
+          puts "The current temperature is #{temperature} degrees fahrenheit in #{receiver_city}."
+          puts "The current conditions in #{receiver_city} are: #{conditions}."
+          puts "The wind is currently out of the #{wind} at #{speed} MPH."
+          puts "Tomorrow is forecast to be #{tomorrow_temp} temperature as today."
+          puts "That is all for your weather for today."
+          puts "**********************************************************************************"
+        end
+        look_up_state
+      end
+    end
 
 end
