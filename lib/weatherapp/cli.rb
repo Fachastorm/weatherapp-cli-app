@@ -22,7 +22,7 @@ attr_accessor :state_weather
 
   def list_states
     puts "Please type the state that you'd like to see the weather for."
-    puts "If you would like to see the list of states please type: states. Otherwise type exit to quit the program."
+    puts "Otherwise type 'exit' to quit the program."
      input = nil
      while input != "exit"
        input = gets.strip.downcase
@@ -30,21 +30,15 @@ attr_accessor :state_weather
          @state_weather = Weatherapp::Weather.new(input)
          @state_weather.city_list
          list_cities
-       elsif input == "states"
-         states.each.with_index(1) do |s, i|
-           puts "#{i}. #{s.capitalize}"
-         end
          puts "Please type the state name that you would like to see the weather for."
-       elsif input != "states" && input != "exit" && states.include?(input) == false
-           puts "I don't know what you mean, please type states to see a list of states or exit."
+       elsif input != "exit" && states.include?(input) == false
+           puts "I don't know what you mean, please type the name of the state or 'exit'."
       else goodbye
     end
    end
   end
 
   def list_cities
-    puts "You have chosen #{@state_weather.state}."
-    puts "These are the available weather stations in your selected state."
     @state_weather.cities.each.with_index(1) do |c, i|
     city = c.split(/ : /)
     puts "#{i}. #{city[0]}"
@@ -53,6 +47,8 @@ attr_accessor :state_weather
   end
 
   def city_weather
+    puts "You have chosen #{@state_weather.state.capitalize}."
+    puts "These are the available weather stations in your selected state."
     puts "Type the city whose weather you'd like to see"
     input = nil
       available = []
@@ -68,12 +64,10 @@ attr_accessor :state_weather
         city = c.split(/ : /)
         puts "#{i}. #{city[0]}"
       end
-      elsif input == "states"
-        list_states
       elsif available.include?(input)
        @state_weather.citys_weather(input)
         elsif input != "exit"
-          puts "Type cities to see a list of cities or type the name of the city. You can also type states to see the list of states again. If you are done, please type exit"
+          puts "Type 'cities' to see a list of cities or type the 'name' of the city. If you are done, please type 'exit'"
     else
       goodbye
     end

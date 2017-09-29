@@ -34,13 +34,14 @@ class Weatherapp::Weather
 
 
           puts "**********************************************************************************"
-          puts "The current temperature is #{temperature} degrees fahrenheit in #{receiver_city}."
-          puts "The current conditions in #{receiver_city} are: #{conditions}."
+          puts "The current temperature is #{temperature} degrees fahrenheit in #{receiver_city.capitalize}."
+          puts "The current conditions in #{receiver_city.capitalize} are: #{conditions}."
           puts "The wind is currently out of the #{wind} at #{speed} MPH."
-          puts "Tomorrow is forecast to be #{tomorrow_temp} temperature as today."
+          puts "Tomorrow is forecast to be #{tomorrow_temp}."
           puts "That is all for your weather for today."
           puts "**********************************************************************************"
-          puts "Type cities to see a list of cities or type the name of the city. You can also type states to see the list of states again. If you are done, please type exit"
+          puts ""
+          puts "Type 'cities' to see a list of cities or type the 'name' of the city. If you are done, please type 'exit'"
       end
     end
   end
