@@ -11,38 +11,27 @@ class Weatherapp::Weather
     html = open("https://www.wunderground.com/cgi-bin/findweather/getForecast?query=#{@state}")
     doc = Nokogiri::HTML(open(html).read)
       doc.css("tbody tr").each do |w|
-       city = w.css("a").text
+       name = w.css("a").text
        url = w.css("a").attr("href").value
-      @cities << "#{city} : #{url}"
+       new_city = Weatherapp::City.new(name, url)
+      @cities << new_city
     end
     @cities
   end
 
-  def citys_weather(input)
-    @cities.each.with_index(1) do |c, i|
-
-      cit = c.split(/ : /)
-      receiver_city = cit[0].downcase
-      if receiver_city == input
-        html = open("https://www.wunderground.com/#{cit[1]}")
-        doc = Nokogiri::HTML(html)
-          temperature = doc.search("span.test-true span.wu-value.wu-value-to").first.text
-          conditions =  doc.search("div.condition-icon.small-6 p").text
-          wind = doc.search("div.condition-wind p strong").first.text
-          speed = doc.search("div.wind-speed strong").text
-          tomorrow_temp = doc.search("p.weather-quickie span").text
+  def citys_weather(city)
+    html = open("https://www.wunderground.com/#{city.url}")
+    doc = Nokogiri::HTML(html)
+    
+    city.temperature = doc.search("span.test-true span.wu-value.wu-value-to").first.text
+    city.conditions =  doc.search("div.condition-icon.small-6 p").text
+    city.wind = doc.search("div.condition-wind p strong").first.text
+    city.speed = doc.search("div.wind-speed strong").text
+    city.tomorrow_temp = doc.search("p.weather-quickie span").text
 
 
-          puts "**********************************************************************************"
-          puts "The current temperature is #{temperature} degrees fahrenheit in #{receiver_city.capitalize}."
-          puts "The current conditions in #{receiver_city.capitalize} are: #{conditions}."
-          puts "The wind is currently out of the #{wind} at #{speed} MPH."
-          puts "Tomorrow is forecast to be #{tomorrow_temp}."
-          puts "That is all for your weather for today."
-          puts "**********************************************************************************"
-          puts ""
-          puts "Type 'cities' to see a list of cities or type the 'name' of the city. If you are done, please type 'exit'"
-      end
-    end
+
+
   end
+
 end

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
-require "./lib/weatherapp"
+
+require_relative "../lib/weatherapp"
 
 Weatherapp::CLI.new.call
